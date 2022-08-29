@@ -1,7 +1,8 @@
 const pets = require('./helper')
+
 const express = require('express')
 const app = express()
-const port = 3000
+const port =  process.env.PORT || 3000
 
 app.get('/', (req, res) => {
   res.send(`
@@ -20,6 +21,7 @@ app.get('/animals/:pet_type/:pet_id', (req, res) => {
     console.log(pet)
     res.send(`
         <h1>${pet.name}</h1>
+        <h3>${pet.breed}</h3>
         <img src="${pet.url}">
         <p>${pet.description}</p>
     `)
@@ -49,7 +51,7 @@ app.get('/animals/:pet_type', (req, res) => {
     result += '<ul>'
     for (let i = 0; i < petsOfOneType.length; i++) {
         const pet = petsOfOneType[i]
-        result += `<li>Name: ${pet.name}</li>`
+        result += `<li><a href="/animals/${req.params.pet_type}/${i}">${pet.name}</a></li>`
     }
     result += '</ul>'
     res.send(result)
